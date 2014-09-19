@@ -5,11 +5,11 @@ Pod::Spec.new do |s|
   s.homepage         = "https://github.com/questbeat/QBImagePickerController"
   s.license          = 'MIT'
   s.author           = { "questbeat" => "questbeat@gmail.com" }
-  s.source           = { :git => "https://github.com/questbeat/QBImagePickerController.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/stephenzl/QBImagePickerController.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/questbeat'
   s.source_files     = 'Pod/Classes/*.{h,m}'
   s.resources        = 'Pod/Assets/*.lproj'
-  s.platform         = :ios, '6.1'
+  s.platform         = :ios, '6.0'
   s.requires_arc     = true
   s.frameworks       = 'AssetsLibrary'
 end
