@@ -155,7 +155,7 @@ ALAssetsFilter * ALAssetsFilterFromQBImagePickerControllerFilterType(QBImagePick
 {
     // Delegate
     if (self.delegate && [self.delegate respondsToSelector:@selector(qb_imagePickerControllerDidCancel:)]) {
-		[self.delegate qb_imagePickerControllerDidCancel:self];
+        [self.delegate qb_imagePickerControllerDidCancel:self];
     }
 }
 
@@ -277,7 +277,7 @@ ALAssetsFilter * ALAssetsFilterFromQBImagePickerControllerFilterType(QBImagePick
                                     
                                     [self.assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupPhotoStream usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
                                         [group enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
-                                            if ([result.defaultRepresentation.url isEqual:assetURL]) {
+                                            if ([result.defaultRepresentation.url isEqual:selectedAssetURL]) {
                                                 // Add asset
                                                 [assets addObject:result];
                                                 
@@ -369,7 +369,7 @@ ALAssetsFilter * ALAssetsFilterFromQBImagePickerControllerFilterType(QBImagePick
     } else {
         // Delegate
         if (self.delegate && [self.delegate respondsToSelector:@selector(qb_imagePickerController:didSelectAsset:)]) {
-			[self.delegate qb_imagePickerController:self didSelectAsset:asset];
+            [self.delegate qb_imagePickerController:self didSelectAsset:asset];
         }
     }
 }
