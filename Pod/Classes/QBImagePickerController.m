@@ -259,16 +259,44 @@ ALAssetsFilter * ALAssetsFilterFromQBImagePickerControllerFilterType(QBImagePick
         __weak typeof(self) weakSelf = self;
         [self.assetsLibrary assetForURL:selectedAssetURL
                             resultBlock:^(ALAsset *asset) {
-                                // Add asset
-                                [assets addObject:asset];
                                 
-                                // Check if the loading finished
-                                if (assets.count == weakSelf.selectedAssetURLs.count) {
-                                    // Delegate
-                                    if (self.delegate && [self.delegate respondsToSelector:@selector(qb_imagePickerController:didSelectAssets:)]) {
-										[self.delegate qb_imagePickerController:self didSelectAssets:[assets copy]];
+                                if (asset) {
+                                    
+                                    // Add asset
+                                    [assets addObject:asset];
+                                    
+                                    // Check if the loading finished
+                                    if (assets.count == weakSelf.selectedAssetURLs.count) {
+                                        // Delegate
+                                        if (self.delegate && [self.delegate respondsToSelector:@selector(qb_imagePickerController:didSelectAssets:)]) {
+                                            [self.delegate qb_imagePickerController:self didSelectAssets:[assets copy]];
+                                        }
                                     }
+                                    
+                                } else {
+                                    
+                                    [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupPhotoStream usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+                                        [group enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+                                            if ([result.defaultRepresentation.url isEqual:assetURL]) {
+                                                // Add asset
+                                                [assets addObject:result];
+                                                
+                                                // Check if the loading finished
+                                                if (assets.count == weakSelf.selectedAssetURLs.count) {
+                                                    // Delegate
+                                                    if (self.delegate && [self.delegate respondsToSelector:@selector(qb_imagePickerController:didSelectAssets:)]) {
+                                                        [self.delegate qb_imagePickerController:self didSelectAssets:[assets copy]];
+                                                    }
+                                                }
+                                                *stop = YES;
+                                            }
+                                        }];
+                                        
+                                    } failureBlock:^(NSError *error) {
+                                        NSLog(@"Error: %@", [error localizedDescription]);
+                                    }];
                                 }
+                                
                             } failureBlock:^(NSError *error) {
                                 NSLog(@"Error: %@", [error localizedDescription]);
                             }];
